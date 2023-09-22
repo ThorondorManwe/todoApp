@@ -1,22 +1,48 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 
-export default function Todo () {
-    const [completed, setCompleted] = React.useState(false);
+export default function Todo ({ todo, handleUpdateTodo }) {
+    // const [label, setLabel] = React.useState("Learn React");
+    // const [completed, setCompleted] = React.useState(false);
+    const [editing, setEditing] = React.useState(false);
 
-    const handleCheckboxClick = () => setCompleted(!completed);
+    const handleCheckboxClick = () => handleUpdateTodo({
+      ...todo,
+      completed: !todo.completed,
+    });
+
+    const handleEditClick = () => setEditing(!editing);
+
+    const handleEditTodo = (e) => handleUpdateTodo({
+      ...todo,
+      label: e.target.value,
+    });
 
     return (
-      <label htmlFor="checkbox">
-        <div>
-          <input
-            type="checkbox"
-            id="checkbox"
-            checked={completed}
-            onChange={handleCheckboxClick}
-          />
-          <span />
-        </div>
-        <span>Learn React</span>
-      </label>
+      <div>
+        <label htmlFor={todo.id}>
+          <div>
+            <input
+              type="checkbox"
+              id={todo.id}
+              checked={todo.completed}
+              onChange={handleCheckboxClick}
+            />
+            <span />
+          </div>
+          {editing === true ? (
+            <input
+                type="text"
+                value={todo.label}
+                onChange={handleEditTodo}
+            />
+          ) : (
+            <span>{ todo.label }</span>
+          )}
+        </label>
+        <button onClick={handleEditClick} >
+          { editing ? "Save" : "Edit" }
+        </button>
+      </div>
     )
 }
