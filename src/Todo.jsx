@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import * as React from "react";
 
-export default function Todo ({ todo, handleUpdateTodo }) {
+export default function Todo ({ todo, handleUpdateTodo, handleDeleteTodo }) {
     // const [label, setLabel] = React.useState("Learn React");
     // const [completed, setCompleted] = React.useState(false);
     const [editing, setEditing] = React.useState(false);
@@ -18,8 +18,10 @@ export default function Todo ({ todo, handleUpdateTodo }) {
       label: e.target.value,
     });
 
+    const handleDeleteClick = () => handleDeleteTodo(todo.id);
+
     return (
-      <div>
+      <li>
         <label htmlFor={todo.id}>
           <div>
             <input
@@ -40,9 +42,16 @@ export default function Todo ({ todo, handleUpdateTodo }) {
             <span>{ todo.label }</span>
           )}
         </label>
-        <button onClick={handleEditClick} >
-          { editing ? "Save" : "Edit" }
-        </button>
-      </div>
+        <div>
+          <button onClick={handleEditClick} >
+            { editing ? "Save" : "Edit" }
+          </button>
+          {!editing && (
+            <button onClick={handleDeleteClick}>
+              Delete
+            </button>
+          )}
+        </div>
+      </li>
     )
 }

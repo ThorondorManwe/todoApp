@@ -9,8 +9,14 @@ export default function TodoList() {
     ]);
 
     const handleUpdateTodo = (updatedTodo) => {
-        setTodos(updatedTodo);
+        const newTodos = todos.map((todo) => todo.id === updatedTodo.id ? updatedTodo : todo);
+        setTodos(newTodos);
     };
+
+    const handleDeleteTodo = (id) => {
+        const newTodos = todos.filter((todo) => todo.id !== id);
+        setTodos(newTodos);
+    }
 
     return (
         <ul>
@@ -19,6 +25,7 @@ export default function TodoList() {
                     key={todo.id}
                     todo={todo}
                     handleUpdateTodo={handleUpdateTodo}
+                    handleDeleteTodo={handleDeleteTodo}
                 />
             ))}
         </ul>
